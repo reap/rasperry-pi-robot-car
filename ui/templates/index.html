@@ -1,0 +1,98 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>PiCar</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script type="application/javascript">
+        $(document).ready(function() {
+           console.log("Document.ready - binding button handlers")
+            $("#button_forward").click(function() {
+                console.log("Calling go forward");
+                $.get("/move/forward");
+            });
+            $("#button_left").click(function() {
+                console.log("Calling turn left");
+                $.get("/move/left");
+            });
+            $("#button_stop").click(function() {
+                console.log("Calling stop");
+                $.get("/stop");
+            });
+            $("#button_right").click(function() {
+                console.log("Calling turn right");
+                $.get("/move/right");
+            });
+            $("#button_backward").click(function() {
+                console.log("Calling go backward");
+                $.get("/move/backward");
+            });
+        });
+
+
+    </script>
+
+    <style type="text/css">
+        .nopadding {
+            padding: 0;
+        !important;
+            margin: 0;
+        !important;
+        }
+    </style>
+</head>
+<body>
+<h1>PiCar</h1>
+
+<div>
+    <div class="row">
+        <div class="col-xs-4 nopadding"></div>
+        <div class="col-xs-4 nopadding">
+
+            <button id="button_forward" type="button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-arrow-up"
+                                                                              aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 nopadding">
+            <button id="button_left" type="button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-arrow-left"
+                                                                              aria-hidden="true"></i>
+
+            </button>
+        </div>
+        <div class="col-xs-4 nopadding">
+            <button id="button_stop" type="button" class="btn btn-lg btn-danger btn-block"><i class="fa fa-stop" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="col-xs-4 nopadding">
+            <button id="button_right" type="button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-arrow-right"
+                                                                              aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 nopadding"></div>
+        <div class="col-xs-4 nopadding">
+            <button id="button_backward" type="button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-arrow-down"
+                                                                              aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<form>
+
+</form>
+
+</body>
+</html>
+
+
