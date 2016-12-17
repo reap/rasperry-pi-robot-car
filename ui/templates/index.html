@@ -16,16 +16,12 @@
            console.log("Document.ready - binding button handlers")
 
             function bind_start_and_stop_to_button(button_id, direction) {
-                $("#" + button_id).mousedown(function () {
-                    console.log(direction + " - mouse down");
+                $("#" + button_id).on("touchstart mousedown", function (event) {
+                    console.log(direction + " - mouse down (" + event.type + ")");
                     $.get("/move/" + direction);
                 });
-                $("#" + button_id).mouseup(function () {
-                    console.log(direction + " - mouse up");
-                    $.get("/stop");
-                });
-                $("#" + button_id).on("touchend", function () {
-                    console.log(direction + " - mouse up");
+                $("#" + button_id).on("touchend mouseup", function (event) {
+                    console.log(direction + " - mouse up (" + event.type + ")");
                     $.get("/stop");
                 });
             }
