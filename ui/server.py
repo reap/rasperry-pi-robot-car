@@ -7,6 +7,68 @@ import time
 app = Flask(__name__)
 
 
+class Car:
+
+    def __init__(self):
+        self.__PinRightMotorsForward__ = 38
+        self.__PinRightMotorsBackward__ = 40
+        self.__PinLeftMotorsForward__ = 13
+        self.__PinLeftMotorsBackward__ = 15
+        self.__runtime__ = 1
+        self.__initializeGPIO__()
+
+    def __initializeGPIO__(self):
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self.__PinRightMotorsForward__, GPIO.OUT)
+        GPIO.setup(self.__PinRightMotorsBackward__, GPIO.OUT)
+        GPIO.setup(self.__PinLeftMotorsForward__, GPIO.OUT)
+        GPIO.setup(self.__PinLeftMotorsBackward__, GPIO.OUT)
+        self.__reset_inputs__()
+
+    def run_forward(self):
+        self.__reset_inputs__()
+        GPIO.output(self.__PinRightMotorsForward__, GPIO.HIGH)
+        GPIO.output(self.__PinLeftMotorsForward__, GPIO.HIGH)
+        print("running forward")
+        time.sleep(self.__runtime__)
+        stop()
+
+    def turn_right(self):
+        self.__reset_inputs__()
+        GPIO.output(self.__PinLeftMotorsForward__, GPIO.HIGH)
+        GPIO.output(self.__PinRightMotorsBackward__, GPIO.HIGH)
+        print("turning right")
+        time.sleep(self.__runtime__)
+        stop()
+
+    def turn_left(self):
+        self.__reset_inputs__()
+        GPIO.output(self.__PinRightMotorsForward__, GPIO.HIGH)
+        GPIO.output(self.__PinLeftMotorsBackward__, GPIO.HIGH)
+        print("turning right")
+        time.sleep(self.__runtime__)
+        stop()
+
+    def run_reverse(self):
+        self.__reset_inputs__()
+        GPIO.output(self.__PinRightMotorsBackward__, GPIO.HIGH)
+        GPIO.output(self.__PinLeftMotorsBackward__, GPIO.HIGH)
+        print("running backward")
+        time.sleep(self.__runtime__)
+        stop()
+
+    def stop(self):
+        self.__reset_inputs__()
+
+    def __reset_inputs__(self):
+        GPIO.output(self.__PinRightMotorsForward__, GPIO.LOW)
+        GPIO.output(self.__PinRightMotorsBackward__, GPIO.LOW)
+        GPIO.output(self.__PinLeftMotorsForward__, GPIO.LOW)
+        GPIO.output(self.__PinLeftMotorsBackward__, GPIO.LOW)
+
+car = Car()
+
+
 @app.route("/")
 def hello():
     return render_template('index.html')
@@ -14,88 +76,33 @@ def hello():
 
 @app.route("/move/forward")
 def forward():
-    run_forward()
+    car.run_forward()
     return "OK"
 
 
 @app.route("/move/left")
 def left():
-    turn_left()
+    car.turn_left()
     return "OK"
 
 
 @app.route("/move/right")
 def right():
-    turn_right()
+    car.turn_right()
     return "OK"
 
 
 @app.route("/move/backward")
 def backward():
-    run_reverse()
+    car.run_reverse()
     return "OK"
 
 
 @app.route("/stop")
 def stop():
-    stop_running()
+    car.stop()
     return "OK"
 
 
-PinRightMotorsForward = 38
-PinRightMotorsBackward = 40
-
-
-PinLeftMotorsForward = 13
-PinLeftMotorsBackward = 15
-
-runtime = 1
-
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(PinRightMotorsForward, GPIO.OUT)
-GPIO.setup(PinRightMotorsBackward, GPIO.OUT)
-
-GPIO.setup(PinLeftMotorsForward, GPIO.OUT)
-GPIO.setup(PinLeftMotorsBackward, GPIO.OUT)
-
-
-def run_forward():
-    GPIO.output(PinRightMotorsForward, GPIO.HIGH)
-    GPIO.output(PinLeftMotorsForward, GPIO.HIGH)
-    print("running forward")
-    time.sleep(runtime)
-    stop()
-
-
-def turn_right():
-    GPIO.output(PinLeftMotorsForward, GPIO.HIGH)
-    GPIO.output(PinRightMotorsBackward, GPIO.HIGH)
-    print("turning right")
-    time.sleep(runtime)
-    stop()
-
-
-def turn_left():
-    GPIO.output(PinRightMotorsForward, GPIO.HIGH)
-    GPIO.output(PinLeftMotorsBackward, GPIO.HIGH)
-    print("turning right")
-    time.sleep(runtime)
-    stop()
-
-
-def run_reverse():
-    GPIO.output(PinRightMotorsBackward, GPIO.HIGH)
-    GPIO.output(PinLeftMotorsBackward, GPIO.HIGH)
-    print("running backward")
-    time.sleep(runtime)
-    stop()
-
-
-def stop_running():
-    GPIO.output(PinRightMotorsForward, GPIO.LOW)
-    GPIO.output(PinRightMotorsBackward, GPIO.LOW)
-    GPIO.output(PinLeftMotorsForward, GPIO.LOW)
-    GPIO.output(PinLeftMotorsBackward, GPIO.LOW)
-
 if __name__ == "__main__":
-    app.run(host= '0.0.0.0')
+    app.run(host='0.0.0.0')
