@@ -2,7 +2,6 @@ from flask import Flask
 from flask import render_template
 import GPIOEmu as GPIO
 # import RPi.GPIO as GPIO
-import time
 
 app = Flask(__name__)
 
