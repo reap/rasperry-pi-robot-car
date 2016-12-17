@@ -14,7 +14,6 @@ class Car:
         self.__PinRightMotorsBackward__ = 40
         self.__PinLeftMotorsForward__ = 13
         self.__PinLeftMotorsBackward__ = 15
-        self.__runtime__ = 1
         self.__initializeGPIO__()
 
     def __initializeGPIO__(self):
@@ -30,32 +29,24 @@ class Car:
         GPIO.output(self.__PinRightMotorsForward__, GPIO.HIGH)
         GPIO.output(self.__PinLeftMotorsForward__, GPIO.HIGH)
         print("running forward")
-        time.sleep(self.__runtime__)
-        stop()
 
     def turn_right(self):
         self.__reset_inputs__()
         GPIO.output(self.__PinLeftMotorsForward__, GPIO.HIGH)
         GPIO.output(self.__PinRightMotorsBackward__, GPIO.HIGH)
         print("turning right")
-        time.sleep(self.__runtime__)
-        stop()
 
     def turn_left(self):
         self.__reset_inputs__()
         GPIO.output(self.__PinRightMotorsForward__, GPIO.HIGH)
         GPIO.output(self.__PinLeftMotorsBackward__, GPIO.HIGH)
         print("turning right")
-        time.sleep(self.__runtime__)
-        stop()
 
     def run_reverse(self):
         self.__reset_inputs__()
         GPIO.output(self.__PinRightMotorsBackward__, GPIO.HIGH)
         GPIO.output(self.__PinLeftMotorsBackward__, GPIO.HIGH)
         print("running backward")
-        time.sleep(self.__runtime__)
-        stop()
 
     def stop(self):
         self.__reset_inputs__()

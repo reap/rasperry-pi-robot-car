@@ -9,29 +9,35 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
 
     <script type="application/javascript">
         $(document).ready(function() {
            console.log("Document.ready - binding button handlers")
-            $("#button_forward").click(function() {
-                console.log("Calling go forward");
-                $.get("/move/forward");
-            });
-            $("#button_left").click(function() {
-                console.log("Calling turn left");
-                $.get("/move/left");
-            });
+
+            function bind_start_and_stop_to_button(button_id, direction) {
+                $("#" + button_id).mousedown(function () {
+                    console.log(direction + " - mouse down");
+                    $.get("/move/" + direction);
+                });
+                $("#" + button_id).mouseup(function () {
+                    console.log(direction + " - mouse up");
+                    $.get("/stop");
+                });
+                $("#" + button_id).on("touchend", function () {
+                    console.log(direction + " - mouse up");
+                    $.get("/stop");
+                });
+            }
+
+            bind_start_and_stop_to_button("button_forward", "forward");
+            bind_start_and_stop_to_button("button_left", "left");
+            bind_start_and_stop_to_button("button_right", "right");
+            bind_start_and_stop_to_button("button_backward", "backward");
+
             $("#button_stop").click(function() {
                 console.log("Calling stop");
                 $.get("/stop");
-            });
-            $("#button_right").click(function() {
-                console.log("Calling turn right");
-                $.get("/move/right");
-            });
-            $("#button_backward").click(function() {
-                console.log("Calling go backward");
-                $.get("/move/backward");
             });
         });
 
